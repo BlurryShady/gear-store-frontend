@@ -1,0 +1,436 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Neon color palette */
+  --neon-primary: rgba(139, 92, 246, 1); /* vibrant purple */
+  --neon-secondary: rgba(236, 72, 153, 1); /* hot pink */
+  --neon-accent: rgba(34, 211, 238, 1); /* electric cyan */
+  --neon-glow: rgba(139, 92, 246, 0.4);
+  
+  /* Glass backgrounds */
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Shadows */
+  --shadow-brutal: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-neon: 0 0 20px var(--neon-glow), 0 0 40px rgba(34, 211, 238, 0.15);
+}
+
+/* ==================== BASE STYLES ==================== */
+
+body {
+  background: #0f172a;
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.06), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.03), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* ==================== GLASSMORPHISM ==================== */
+
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(139, 92, 246, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 30px rgba(139, 92, 246, 0.15);
+}
+
+/* ==================== HERO GRADIENT ==================== */
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.15) 0%,
+    rgba(236, 72, 153, 0.1) 50%,
+    rgba(34, 211, 238, 0.08) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 92, 246, 0.03) 2px,
+      rgba(139, 92, 246, 0.03) 4px
+    );
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ==================== PRODUCT CARD GRADIENT ==================== */
+
+.product-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.12) 0%,
+    rgba(236, 72, 153, 0.08) 50%,
+    rgba(34, 211, 238, 0.1) 100%
+  );
+  position: relative;
+}
+
+.product-gradient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(139, 92, 246, 0.2),
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.group:hover .product-gradient::after {
+  opacity: 1;
+}
+
+/* ==================== BRUTAL BORDERS (Sharp + Neon) ==================== */
+
+.brutal-border {
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.4) 0%,
+    rgba(236, 72, 153, 0.3) 50%,
+    rgba(34, 211, 238, 0.4) 100%
+  ) 1;
+  position: relative;
+}
+
+/* Animated border glow on hover */
+.brutal-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.6),
+    rgba(236, 72, 153, 0.4),
+    rgba(34, 211, 238, 0.6)
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.brutal-border:hover::before {
+  opacity: 1;
+  animation: borderPulse 2s ease-in-out infinite;
+}
+
+@keyframes borderPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ==================== NEON TEXT EFFECTS ==================== */
+
+.neon-text {
+  background: linear-gradient(
+    135deg,
+    #a78bfa 0%,
+    #ec4899 50%,
+    #22d3ee 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  animation: textShimmer 3s ease-in-out infinite;
+}
+
+@keyframes textShimmer {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+}
+
+/* ==================== NEON GLOW EFFECTS ==================== */
+
+.neon-shadow {
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neon-shadow:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(139, 92, 246, 0.3),
+    0 0 60px rgba(236, 72, 153, 0.15),
+    0 0 0 1px rgba(139, 92, 246, 0.4);
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* ==================== BUTTON ENHANCEMENTS ==================== */
+
+/* Gradient buttons with hover glow */
+.btn-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 1) 0%,
+    rgba(236, 72, 153, 1) 100%
+  );
+  box-shadow: 
+    0 4px 16px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  box-shadow: 
+    0 6px 24px rgba(139, 92, 246, 0.6),
+    0 0 30px rgba(236, 72, 153, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-gradient:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ==================== BACKGROUND EFFECTS ==================== */
+
+.neon-bg {
+  background: #0f172a;
+  background-image: 
+    radial-gradient(
+      ellipse 1400px 600px at 15% 10%,
+      rgba(139, 92, 246, 0.1),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 1200px 500px at 85% 90%,
+      rgba(236, 72, 153, 0.08),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 1000px 400px at 50% 50%,
+      rgba(34, 211, 238, 0.05),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+/* Animated gradient mesh overlay */
+.gradient-mesh {
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(139, 92, 246, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(236, 72, 153, 0.06) 0%,
+      transparent 50%
+    );
+  animation: meshFloat 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes meshFloat {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  33% {
+    transform: translate(50px, -30px);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translate(-30px, 50px);
+    opacity: 0.7;
+  }
+}
+
+/* ==================== MICRO-INTERACTIONS ==================== */
+
+/* Smooth scale on interactive elements */
+.scale-hover {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-hover:hover {
+  transform: scale(1.05);
+}
+
+.scale-hover:active {
+  transform: scale(0.98);
+}
+
+/* Glow pulse animation for badges */
+.badge-glow {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* ==================== LOADING ANIMATIONS ==================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.4) 0%,
+    rgba(51, 65, 85, 0.6) 50%,
+    rgba(30, 41, 59, 0.4) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+
+/* RGB glow effect for product images */
+.rgb-glow {
+  position: relative;
+}
+
+.rgb-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    #8b5cf6,
+    #ec4899,
+    #22d3ee,
+    #8b5cf6
+  );
+  border-radius: inherit;
+  filter: blur(15px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  animation: rgbRotate 4s linear infinite;
+}
+
+.group:hover .rgb-glow::after {
+  opacity: 0.6;
+}
+
+@keyframes rgbRotate {
+  0% {
+    filter: blur(15px) hue-rotate(0deg);
+  }
+  100% {
+    filter: blur(15px) hue-rotate(360deg);
+  }
+}
+
+/* Smooth focus states */
+*:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.95);
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 2px rgba(2, 6, 23, 0.9),
+    0 0 12px rgba(34, 211, 238, 0.45);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .floating-lines-bg,
+  .gradient-mesh,
+  .hero-gradient::before,
+  .badge-glow,
+  .rgb-glow::after,
+  .skeleton {
+    animation: none !important;
+    display: none;
+  }
+
+  .glass,
+  .neon-shadow,
+  .btn-gradient,
+  .product-gradient::after {
+    transition: none !important;
+    box-shadow: none;
+  }
+}
