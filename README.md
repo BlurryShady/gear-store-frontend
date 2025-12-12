@@ -1,5 +1,5 @@
 
-# Gear Store Web
+# e-Commerce Gear Store 
 
 Frontend web application for the Gear Store project.
 
