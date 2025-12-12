@@ -8,6 +8,17 @@ function ProductCard({ product, highlight = false }) {
   const lowStock = product.stock !== null && product.stock <= 3;
   const stockLabel = lowStock ? "Low stock" : "In stock";
 
+  const API_ORIGIN =
+    import.meta.env.VITE_API_URL?.replace(/\/$/, "") ||
+    (import.meta.env.DEV ? "http://127.0.0.1:8000" : "");
+
+  const imageSrc =
+    product?.image && typeof product.image === "string"
+      ? product.image.startsWith("http")
+        ? product.image
+        : `${API_ORIGIN}${product.image}`
+      : null;
+
   function handleAddToCart(e) {
     e.preventDefault();
     dispatch({ type: "ADD_ITEM", payload: { product } });
@@ -23,15 +34,22 @@ function ProductCard({ product, highlight = false }) {
     >
       {/* Image / hero area */}
       <div className="product-gradient rgb-glow relative h-36 overflow-hidden rounded-3xl border-b border-slate-800/60">
-        {product.image ? (
+        {imageSrc ? (
           <img
-            src={product.image}
+            src={imageSrc}
             alt={product.name}
             className="w-full h-full object-cover"
+            loading="lazy"
+            onError={(e) => {
+              // fallback to gradient if image fails
+              e.currentTarget.style.display = "none";
+            }}
           />
-        ) : (
+        ) : null}
+
+        {!imageSrc ? (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(129,140,248,0.45),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(56,189,248,0.35),transparent_45%)] opacity-70 group-hover:opacity-100" />
-        )}
+        ) : null}
 
         <div className="absolute right-3 top-3 rounded-full bg-black/40 px-2 py-0.5 text-[10px] text-indigo-200 ring-1 ring-indigo-400/30">
           {product.stock > 0 ? "In stock" : "Out"}
